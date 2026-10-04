@@ -5,12 +5,12 @@
 Can we predict the culprit of a detective story *before* the solution is revealed, and which kinds of evidence survive when part of the text is missing?
 
 ## Research design (from the proposal)
-- **Corpus:** English detective stories from Project Gutenberg (Sherlock Holmes first). 5 pilot stories + ~30 eligible main stories. Main evaluation uses stories with **exactly one identifiable human culprit**; multiple-culprit, non-criminal, and unresolved cases are documented separately.
+- **Corpus:** English detective stories from Project Gutenberg (Sherlock Holmes first). 5 pilot stories + ~30 eligible main stories. Main evaluation uses stories with **one identifiable human principal culprit**; named accomplices are annotated too. Stories with no clear principal (`multiple_culprits`), non-criminal, and unresolved cases are documented separately.
 - **Annotation (human):** culprit, earliest explicit reveal, character aliases. ≥20% of stories cross-reviewed.
 - **Features (code):** visibility (mention frequency, first appearance), interaction (paragraph co-occurrence network degree), crime language (crime-term frequency near each character). 7 feature-group combinations.
 - **Model:** regularized logistic regression over candidate characters; baselines = random ranking, mention frequency.
 - **Experiments:** (1) reveal-free prefix at 20/40/60/80%; (2) at 80%, remove ~10/20/30% of words as scattered sentences vs. one continuous passage, fixed seeds; roster held fixed; train unmasked, test masked.
-- **Evaluation:** 5-fold GroupKFold by story (pilot excluded), Top-1 and MRR, paired comparisons and story-level bootstrap CIs, candidate coverage reported (absent culprit = failure).
+- **Evaluation:** 5-fold GroupKFold by story (pilot excluded), Top-1 and MRR scored against the principal culprit, paired comparisons and story-level bootstrap CIs, candidate coverage reported (absent culprit = failure).
 
 ## Repo layout
 ```

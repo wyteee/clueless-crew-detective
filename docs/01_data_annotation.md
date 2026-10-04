@@ -3,7 +3,7 @@
 Goal: a verified `manifest/annotations.csv` for 5 pilot + ~30 main stories, plus cleaned, paragraph-numbered texts.
 
 ## 0. Decide first (10-minute team meeting)
-- [ ] **Corpus scope.** The Holmes canon likely yields only ~14–19 stories with one clear human culprit. Options: (a) Holmes + Father Brown to reach ~30 (current list), (b) Holmes only, target ~20–25 (proposal allows 25–35, so would need a note to the instructor), (c) add other authors. Current list = option (a).
+- [ ] **Corpus scope.** The Holmes canon likely yields only ~14–19 stories with one clear human (principal) culprit. Options: (a) Holmes + Father Brown to reach ~30 (current list), (b) Holmes only, target ~20–25 (proposal allows 25–35, so would need a note to the instructor), (c) add other authors. Current list = option (a).
 - [ ] **Who annotates which stories** (see split below) and who cross-reviews.
 - [ ] Confirm the guideline wording of "earliest explicit reveal".
 
