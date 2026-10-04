@@ -1,0 +1,9 @@
+pandas>=2.0
+numpy
+scikit-learn>=1.3
+spacy>=3.7
+networkx
+matplotlib
+jupyter
+ipykernel
+nbstripout
