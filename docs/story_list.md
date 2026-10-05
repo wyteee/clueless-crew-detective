@@ -99,3 +99,21 @@ All remaining stories in the books already downloaded. No culprit is pre-filled;
 | R33 | The Adventure of Shoscombe Old Place | The Case-Book of Sherlock Holmes (69700) |
 | R34 | The Honour of Israel Gow (Father Brown) | The Innocence of Father Brown (Chesterton) (204) |
 | R35 | The Three Tools of Death (Father Brown) | The Innocence of Father Brown (Chesterton) (204) |
+
+## Agatha Christie, Poirot Investigates (PG #61262; added 2026-10-05, unscreened)
+
+Public domain in the US (1924). No culprit is pre-filled; screen reveal-first (guideline v0.8).
+
+| ID | Title |
+|---|---|
+| C01 | The Adventure of “The Western Star” |
+| C02 | The Tragedy at Marsdon Manor |
+| C03 | The Adventure of the Cheap Flat |
+| C04 | The Mystery of Hunter’s Lodge |
+| C05 | The Million Dollar Bond Robbery |
+| C06 | The Adventure of the Egyptian Tomb |
+| C07 | The Jewel Robbery at the Grand Metropolitan |
+| C08 | The Kidnapped Prime Minister |
+| C09 | The Disappearance of Mr. Davenheim |
+| C10 | The Adventure of the Italian Nobleman |
+| C11 | The Case of the Missing Will |

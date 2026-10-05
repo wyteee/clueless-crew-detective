@@ -25,6 +25,7 @@ BOOKS = {
     244: "study_in_scarlet.txt",
     2852: "hound.txt",
     204: "innocence_of_father_brown.txt",
+    61262: "poirot_investigates.txt",
 }
 
 
@@ -133,6 +134,8 @@ def book_stories(gid):
     if gid == 204:
         titles = toc_titles(body)
         return split_collection(body, r"^(" + "|".join(map(re.escape, titles)) + r")$")
+    if gid == 61262:  # "  IV" line, blank lines, then the indented title
+        return split_collection(body, r"^  [IVX]+\n(?:[ \t]*\n)+  (\S.*)$")
     if gid == 244:  # after the title line, from "PART I."
         return [("A Study in Scarlet", split_novel(body, r"^PART I\.$"))]
     if gid == 2852:
