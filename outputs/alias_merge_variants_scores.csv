@@ -1,0 +1,11 @@
+story_id,gold,gold_forms,scorable,extracted,precision,recall,tp,fp,fn,fn_not_extracted,fn_link,fn_rules
+P1,all hand merges,12,11,11,1.0,0.7142857142857143,10,0,4,0,4,0
+P1,prefix-only hand merges,12,11,11,1.0,0.7142857142857143,10,0,4,0,4,0
+P2,all hand merges,18,17,16,1.0,0.4782608695652174,11,0,12,0,12,0
+P2,prefix-only hand merges,18,17,16,1.0,0.7333333333333333,11,0,4,0,4,0
+P3,all hand merges,13,12,12,1.0,0.5454545454545454,6,0,5,0,3,2
+P3,prefix-only hand merges,13,12,12,1.0,0.5454545454545454,6,0,5,0,3,2
+P4,all hand merges,12,9,9,1.0,0.5,8,0,8,0,8,0
+P4,prefix-only hand merges,12,9,9,1.0,1.0,8,0,0,0,0,0
+P5,all hand merges,13,13,13,1.0,0.7777777777777778,7,0,2,0,0,2
+P5,prefix-only hand merges,13,13,13,1.0,0.7777777777777778,7,0,2,0,0,2

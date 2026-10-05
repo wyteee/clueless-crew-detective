@@ -1,0 +1,16 @@
+story_id,roster,mentions,first_para,freq_rank,n_characters
+P1,rules only,18,1,2,20
+P1,rules + prefix-only hand merges,18,1,2,20
+P1,rules + all hand merges,18,1,2,20
+P2,rules only,3,170,8,20
+P2,rules + prefix-only hand merges,3,170,8,19
+P2,rules + all hand merges,11,36,3,18
+P3,rules only,7,61,5,28
+P3,rules + prefix-only hand merges,8,61,5,26
+P3,rules + all hand merges,8,61,5,26
+P4,rules only,13,20,3,15
+P4,rules + prefix-only hand merges,13,20,3,16
+P4,rules + all hand merges,34,18,2,15
+P5,rules only,17,64,2,20
+P5,rules + prefix-only hand merges,17,64,2,19
+P5,rules + all hand merges,17,64,2,19

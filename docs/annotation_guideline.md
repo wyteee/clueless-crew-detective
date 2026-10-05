@@ -1,4 +1,4 @@
-# Annotation Guideline v0.3 (Clueless Crew)
+# Annotation Guideline v0.4 (Clueless Crew)
 
 对象：清洗后、带段落编号 `[0001]` 的单篇文本（data/processed）。raw 文件不改。
 
@@ -22,8 +22,9 @@
   - 若罪犯先被当场抓获/暴露、之后才解释经过，以**暴露场景中文本第一次把罪行归到此人身上**的那段为准（可以是侦探的断言或评语），不必等到后面解释作案手法的段落；在 notes 记录判断理由。例：P1 取 [0245] "the schemer falls into the pit which he digs for another"，而不是解释手法的 [0248]。
 - **reveal_quote**：该段内起决定作用的原句（原文抄录）。
 - **aliases**：JSON，`{"规范名": ["称呼1","称呼2",...]}`；**所有罪犯（主犯和从犯）都要填**，另加主要嫌疑人/重要角色。包含全名、姓、名、头衔+姓、假名/化名。
-  - 只收名字类称呼，以及当作名字用的头衔（如 P1 的 "the Doctor"）；不收 "my stepfather" 这类相对于说话人的关系描述。
+  - 只收名字类称呼。只有头衔或职业、不带名字的称呼（如 P1 的 "the Doctor"）歧义太大，不收；"my stepfather" 这类相对于说话人的关系描述也不收。
   - 化名：只要原文说明了化名和真名是同一人（不论在 reveal 之前还是之后），就把化名并入此人名下（如 P2 "Vincent Spaulding" 并入 John Clay，P4 "Hosmer Angel" 并入 James Windibank）。若这个联系只在 reveal 及之后才说明，在 notes 写明出处段号。
+    每个化名/误称联系另在 `manifest/alias_links.csv` 记一行（`story_id, character, forms, link_para_idx, link_quote`），reveal 前说明的也要记（如 P3 "John Robinson" [0169]）；代码据此生成"只用 reveal 前证据"的版本。
   - 收入的称呼本身须在 reveal 段之前出现过。若同一称呼会匹配到别人（如 P1 中 "Roylott" 也匹配 Helen 的 "Miss Roylott"），在 notes 记录。
   - 未具名的从犯没有名字可收，aliases 留空列表（如 P4 `"[unnamed: Mary's mother]": []`），不要用 "mother" 这类有歧义的称呼。
 - **culprit_before_reveal**：`yes` 若**主犯**的任一 alias 在 reveal 段之前出现过，否则 `no`。
@@ -39,3 +40,4 @@
 - v0.1 初稿，待 P1 交叉复核后修订。
 - v0.2（2026-10-04，P1 标注后）：明确"先暴露、后解释"时取暴露场景中第一次把罪行归到此人的段落（P1 取 [0245]，不取 [0248]）；aliases 只收名字类称呼，不收关系描述，同名冲突记入 notes。
 - v0.3（2026-10-04，P2–P5 标注后）：允许多个罪犯，全部标出，主犯放第一个，reveal 与 culprit_before_reveal 以主犯为准；只有无法确定主犯时才用 `multiple_culprits`。所有罪犯都标 aliases；原文说明过的化名并入真名（联系在 reveal 之后才说明时记出处）；未具名从犯 aliases 留空；是否算 crime 不看是否违法，`non_criminal` 只用于无人作恶的故事。
+- v0.4（2026-10-04，alias 检查后）：不收只有头衔、不带名字的称呼（P1 删去 "the Doctor"）；化名/误称联系统一记入 `manifest/alias_links.csv`（段号 + 引文）。
