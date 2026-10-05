@@ -62,3 +62,40 @@
 | R04 | The Sign of the Broken Sword (Father Brown) | The Innocence of Father Brown (Chesterton) (204) | ? | ? | low | screen before use |
 | R05 | The Sins of Prince Saradine (Father Brown) | The Innocence of Father Brown (Chesterton) (204) | ? | ? | low | screen before use |
 
+
+## Extra reserves (added 2026-10-05, unscreened)
+
+All remaining stories in the books already downloaded. No culprit is pre-filled; screen reveal-first (guideline v0.8).
+
+| ID | Title | Source (PG #) |
+|---|---|---|
+| R06 | A Scandal in Bohemia | The Adventures of Sherlock Holmes (1661) |
+| R07 | The Five Orange Pips | The Adventures of Sherlock Holmes (1661) |
+| R08 | The Man with the Twisted Lip | The Adventures of Sherlock Holmes (1661) |
+| R09 | The Adventure of the Engineer’s Thumb | The Adventures of Sherlock Holmes (1661) |
+| R10 | The Adventure of the Noble Bachelor | The Adventures of Sherlock Holmes (1661) |
+| R11 | The Yellow Face | The Memoirs of Sherlock Holmes (834) |
+| R12 | The Stockbroker’s Clerk | The Memoirs of Sherlock Holmes (834) |
+| R13 | The Reigate Squires | The Memoirs of Sherlock Holmes (834) |
+| R14 | The Crooked Man | The Memoirs of Sherlock Holmes (834) |
+| R15 | The Resident Patient | The Memoirs of Sherlock Holmes (834) |
+| R16 | The Greek Interpreter | The Memoirs of Sherlock Holmes (834) |
+| R17 | The Final Problem | The Memoirs of Sherlock Holmes (834) |
+| R18 | The Adventure of the Solitary Cyclist | The Return of Sherlock Holmes (108) |
+| R19 | The Adventure of Charles Augustus Milverton | The Return of Sherlock Holmes (108) |
+| R20 | The Adventure of the Missing Three-quarter | The Return of Sherlock Holmes (108) |
+| R21 | The Adventure of Wisteria Lodge | His Last Bow (2350) |
+| R22 | The Adventure of the Devil’s Foot | His Last Bow (2350) |
+| R23 | The Adventure of the Red Circle | His Last Bow (2350) |
+| R24 | The Disappearance of Lady Frances Carfax | His Last Bow (2350) |
+| R25 | His Last Bow: the War Service of Sherlock Holmes | His Last Bow (2350) |
+| R26 | The Adventure of the Blanched Soldier | The Case-Book of Sherlock Holmes (69700) |
+| R27 | The Adventure of the Mazarin Stone | The Case-Book of Sherlock Holmes (69700) |
+| R28 | The Adventure of the Sussex Vampire | The Case-Book of Sherlock Holmes (69700) |
+| R29 | The Problem of Thor Bridge | The Case-Book of Sherlock Holmes (69700) |
+| R30 | The Adventure of the Creeping Man | The Case-Book of Sherlock Holmes (69700) |
+| R31 | The Adventure of the Lion's Mane | The Case-Book of Sherlock Holmes (69700) |
+| R32 | The Adventure of the Veiled Lodger | The Case-Book of Sherlock Holmes (69700) |
+| R33 | The Adventure of Shoscombe Old Place | The Case-Book of Sherlock Holmes (69700) |
+| R34 | The Honour of Israel Gow (Father Brown) | The Innocence of Father Brown (Chesterton) (204) |
+| R35 | The Three Tools of Death (Father Brown) | The Innocence of Father Brown (Chesterton) (204) |
