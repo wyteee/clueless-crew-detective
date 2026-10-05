@@ -1,4 +1,4 @@
-# Annotation Guideline v0.9 (Clueless Crew)
+# Annotation Guideline v0.10 (Clueless Crew)
 
 对象：清洗后、带段落编号 `[0001]` 的单篇文本（data/processed）。raw 文件不改。
 
@@ -16,6 +16,7 @@
   - 是否算 crime 不看是否违法：只要文本把某人的欺骗、迫害等行为当作谜底揭露出来，就算（如 P4，原文说"不违法"，但 Windibank 是被揭露的作恶者）。`non_criminal` 只用于没有任何人作恶的故事（误会、意外等）。
   - 多个罪犯：凡原文**明确**把罪行或参与归到某人身上的都要标，用 `; ` 分隔，**主犯放第一个**（如 `John Clay; Archie`）。
   - 有人被杀时，**动手杀人的人是主犯**，策划者、雇主、包庇者都算从犯（如 M21 Oberstein 而非 Walter，M28 Hayes 而非 Wilder）。
+  - 原文没说清几名同伙中是谁动的手时，以头目/主事者为主犯（如 R07 Calhoun、R21 Henderson）。
   - 只是知情、配合但原文没有明确归罪的人（如 P5 的 Rucastle 太太、Toller 夫妇）不标，写进 notes。
   - 原文没有给名字的从犯写作 `[unnamed: <描述>]`（如 P4 `[unnamed: Mary's mother]`）。
 - **reveal_para_idx**：**第一次明确**把该人指认为罪犯的段落编号。有多个罪犯时，以**主犯**被抓获/暴露的那段为准。
@@ -51,3 +52,4 @@
 - v0.7（2026-10-05，M06 标注后）：原书图片被换成文字、提前泄露罪犯的故事排除，`other:cipher_text_leak`（M06）。
 - v0.8（2026-10-05，M01–M06 后）：标注前先筛 reveal 位置，80% 之前揭晓的只记罪犯和 reveal、不标 aliases（"先抓获后长篇解释"结构很常见）。
 - v0.9（2026-10-05，筛选后）：有人被杀时，动手杀人者为主犯（M21 Oberstein、M28 Hayes、R05 Antonelli）。
+- v0.10（2026-10-05）：同伙中动手者不明时，以头目/主事者为主犯（R07、R21）。

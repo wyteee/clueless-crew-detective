@@ -117,3 +117,4 @@ Public domain in the US (1924). No culprit is pre-filled; screen reveal-first (g
 | C09 | The Disappearance of Mr. Davenheim |
 | C10 | The Adventure of the Italian Nobleman |
 | C11 | The Case of the Missing Will |
+| C12 | The Mysterious Affair at Styles (novel, PG #863) |

@@ -26,6 +26,7 @@ BOOKS = {
     2852: "hound.txt",
     204: "innocence_of_father_brown.txt",
     61262: "poirot_investigates.txt",
+    863: "mysterious_affair_at_styles.txt",
 }
 
 
@@ -138,6 +139,8 @@ def book_stories(gid):
         return split_collection(body, r"^  [IVX]+\n(?:[ \t]*\n)+  (\S.*)$")
     if gid == 244:  # after the title line, from "PART I."
         return [("A Study in Scarlet", split_novel(body, r"^PART I\.$"))]
+    if gid == 863:  # the contents list also starts with "CHAPTER I. ...", so match the bare line
+        return [("The Mysterious Affair at Styles", split_novel(body, r"^CHAPTER I\.$"))]
     if gid == 2852:
         return [("The Hound of the Baskervilles", split_novel(body, r"^Chapter 1\.$"))]
     raise KeyError(gid)
