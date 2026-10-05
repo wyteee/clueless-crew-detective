@@ -21,8 +21,10 @@ Goal: a verified `manifest/annotations.csv` for 5 pilot + ~30 main stories, plus
 Compare hand-built alias tables against a rule-based merge (Mr./Dr. + surname, surname-only, full-name containment). Report alias precision/recall per pilot story. If poor → fall back to explicit named mentions + manual audit (proposal's fallback).
 
 ## 4. Main corpus annotation (Week 3–4)
-- Screen each candidate: read → qualifies? → if not, fill `exclusion_reason` and stop.
+- Screen each candidate **reveal-first**: read from the end to find the reveal, let code compute `reveal_pct`; if the reveal is not after 80% (typical of 'capture, then long explanation / confession / flashback' stories), record culprit + reveal only and stop (guideline v0.8).
+- Then read → qualifies? → if not, fill `exclusion_reason` and stop.
 - `main_screen` rows are expected to be partly excluded; replace from reserves (`R01…`) to reach 30.
+- Stories whose reveal is not after 80% of the paragraphs are excluded automatically (`other:reveal_before_80pct`, guideline v0.6); they also count as excluded when topping up from reserves.
 - Annotate the two novels last; they are 5–8× longer.
 - Cross-review ≥20% (≥6 of 30), chosen at random with a fixed seed, by someone who did not annotate the story.
 

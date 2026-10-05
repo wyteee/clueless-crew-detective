@@ -9,7 +9,7 @@ Can we predict the culprit of a detective story *before* the solution is reveale
 - **Annotation (human):** culprit, earliest explicit reveal, character aliases. ≥20% of stories cross-reviewed.
 - **Features (code):** visibility (mention frequency, first appearance), interaction (paragraph co-occurrence network degree), crime language (crime-term frequency near each character). 7 feature-group combinations.
 - **Model:** regularized logistic regression over candidate characters; baselines = random ranking, mention frequency.
-- **Experiments:** (1) reveal-free prefix at 20/40/60/80%; (2) at 80%, remove ~10/20/30% of words as scattered sentences vs. one continuous passage, fixed seeds; roster held fixed; train unmasked, test masked.
+- **Experiments:** (1) reveal-free prefix at 20/40/60/80% (stories whose reveal is not after 80% of the paragraphs are excluded, `other:reveal_before_80pct`); (2) at 80%, remove ~10/20/30% of words as scattered sentences vs. one continuous passage, fixed seeds; roster held fixed; train unmasked, test masked.
 - **Evaluation:** 5-fold GroupKFold by story (pilot excluded), Top-1 and MRR scored against the principal culprit, paired comparisons and story-level bootstrap CIs, candidate coverage reported (absent culprit = failure).
 
 ## Repo layout
