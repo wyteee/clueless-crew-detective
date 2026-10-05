@@ -6,7 +6,7 @@ P4,pilot,A Case of Identity,The Adventures of Sherlock Holmes,1661,James Windiba
 P5,pilot,The Adventure of the Copper Beeches,The Adventures of Sherlock Holmes,1661,Jephro Rucastle,unlawful confinement,medium,crime type borderline; swap if the team prefers
 M01,main_likely,The Boscombe Valley Mystery,The Adventures of Sherlock Holmes,1661,John Turner,murder,high,
 M02,main_likely,The Adventure of the Naval Treaty,The Memoirs of Sherlock Holmes,834,Joseph Harrison,theft,high,
-M03,main_likely,The Adventure of the Cardboard Box,Memoirs or His Last Bow,834 / 2350,Jim Browner,double murder,high,confirm which Gutenberg volume contains it
+M03,main_likely,The Adventure of the Cardboard Box,The Memoirs of Sherlock Holmes,834,Jim Browner,double murder,high,in PG #834 (story II); not in PG #2350
 M04,main_likely,The Adventure of the Empty House,The Return of Sherlock Holmes,108,Colonel Sebastian Moran,murder,high,
 M05,main_likely,The Adventure of the Norwood Builder,The Return of Sherlock Holmes,108,Jonas Oldacre,frame-up (no completed murder),high,no actual victim; crime is the frame-up
 M06,main_likely,The Adventure of the Dancing Men,The Return of Sherlock Holmes,108,Abe Slaney,murder,high,

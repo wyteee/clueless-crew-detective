@@ -18,7 +18,7 @@
 |---|---|---|---|---|---|---|
 | M01 | The Boscombe Valley Mystery | The Adventures of Sherlock Holmes (1661) | John Turner | murder | high |  |
 | M02 | The Adventure of the Naval Treaty | The Memoirs of Sherlock Holmes (834) | Joseph Harrison | theft | high |  |
-| M03 | The Adventure of the Cardboard Box | Memoirs or His Last Bow (834 / 2350) | Jim Browner | double murder | high | confirm which Gutenberg volume contains it |
+| M03 | The Adventure of the Cardboard Box | The Memoirs of Sherlock Holmes (834) | Jim Browner | double murder | high | in PG #834 (story II); not in PG #2350 |
 | M04 | The Adventure of the Empty House | The Return of Sherlock Holmes (108) | Colonel Sebastian Moran | murder | high |  |
 | M05 | The Adventure of the Norwood Builder | The Return of Sherlock Holmes (108) | Jonas Oldacre | frame-up (no completed murder) | high | no actual victim; crime is the frame-up |
 | M06 | The Adventure of the Dancing Men | The Return of Sherlock Holmes (108) | Abe Slaney | murder | high |  |
