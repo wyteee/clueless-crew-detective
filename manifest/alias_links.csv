@@ -1,8 +1,17 @@
 story_id,character,forms,link_para_idx,link_quote
+C01,Lady Yardly,"[""Maude Stopperton""]",121,"Hon. Maude Stopperton, fourth daughter of 3rd Baron Cotteril"
+C04,Zoe Havering,"[""Zoe Carrisbrook""]",12,only she called herself Zoe Carrisbrook
+C04,Zoe Havering,"[""Mrs. Middleton""]",127,ever saw Mrs. Middleton and her mistress at one and the same time
+C05,Mr. Shaw,"[""Mr. Ventnor""]",119,the man who has _not_ been severely ill with bronchitis at his home in the country
+C09,Davenheim,"[""Billy Kellett"", ""Kellett""]",156,he was creating the character of Billy Kellett
 M05,Jonas Oldacre,"[""Mr. Cornelius"", ""Cornelius""]",203,"he pays large checks to a certain Mr. Cornelius, who is, I imagine, himself under another name"
+M11,Killer Evans,"[""Mr. John Garrideb"", ""John Garrideb""]",120,He is none other than 'Killer' Evans
 P1,Helen Stoner,"[""Miss Roylott""]",70,"Miss Roylott, you have not. You are screening your stepfather."
 P2,Archie,"[""William Morris"", ""Mr. William Morris""]",101,his name was William Morris
 P2,John Clay,"[""Vincent Spaulding"", ""Spaulding""]",206,"The method was no doubt suggested to Clay’s ingenious mind by the colour of his accomplice’s hair. ... one rogue has the temporary office, the other rogue incites the man to apply for it"
 P2,Archie,"[""Duncan Ross"", ""Mr. Duncan Ross"", ""William Morris"", ""Mr. William Morris""]",206,The method was no doubt suggested to Clay’s ingenious mind by the colour of his accomplice’s hair. ... one rogue has the temporary office
 P3,James Ryder,"[""John Robinson""]",169,my real name is James Ryder
 P4,James Windibank,"[""Hosmer Angel"", ""Mr. Hosmer Angel"", ""Mr. Angel"", ""Hosmer""]",125,"he appears as Mr. Hosmer Angel, and keeps off other lovers by making love himself"
+R12,Pinner,"[""Harry Pinner"", ""Mr. Harry Pinner""]",178,But why should this man pretend to be his own brother?
+R29,Mrs. Gibson,"[""Maria Pinto""]",83,Maria Pinto was the daughter of a Government official at Manaos
+R33,Mrs. Norlett,"[""Carrie Evans""]",180,"Mrs. Norlett, under her maiden name of Evans"
