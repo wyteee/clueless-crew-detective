@@ -285,7 +285,7 @@ def culprit_check(gold_aliases, principal, pred_cluster):
 
 def run_pilot(nlp, story_ids=("P1", "P2", "P3", "P4", "P5")):
     """Return (summary DataFrame, {story_id: details})."""
-    manifest = pd.read_csv(ROOT / "manifest" / "annotations.csv")
+    manifest = pd.read_csv(ROOT / "manifest" / "pilot.csv")
     links = load_alias_links()
     rows, details = [], {}
     for sid in story_ids:
@@ -341,7 +341,7 @@ def culprit_visibility(mentions, labels, culprit_label):
 def compare_merge_variants(nlp, story_ids=("P1", "P2", "P3", "P4", "P5")):
     """Principal culprit's visibility under three rosters: rules only, rules + prefix-only hand
     merges, rules + all hand merges. Also the rule-vs-gold alias scores for both gold variants."""
-    manifest = pd.read_csv(ROOT / "manifest" / "annotations.csv").set_index("story_id")
+    manifest = pd.read_csv(ROOT / "manifest" / "pilot.csv").set_index("story_id")
     links = load_alias_links()
     vis_rows, score_rows = [], []
     for sid in story_ids:

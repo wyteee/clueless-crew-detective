@@ -1,6 +1,6 @@
 # Step 1 – Data annotation (Weeks 1–4)
 
-Goal: a verified `manifest/annotations.csv` for 5 pilot + ~30 main stories, plus cleaned, paragraph-numbered texts.
+Goal: verified annotations for 5 pilot (`manifest/pilot.csv`) + 30 main stories (`manifest/annotations.csv`; excluded candidates in `manifest/excluded.csv`), plus cleaned, paragraph-numbered texts.
 
 **Team setup:** one annotator (`wyte`) does all preprocessing and annotation and commits directly to `main`. Annotation rows are Claude-assisted drafts: every row is written with `python -m src.annotate spec.json` (quotes and alias forms checked against the text by code) and must be confirmed by the annotator against the quoted paragraphs. There is no second human annotator, so the inter-annotator cross-review of the original plan is replaced by a blind re-annotation check (section 5).
 
@@ -32,7 +32,7 @@ Goal: a verified `manifest/annotations.csv` for 5 pilot + ~30 main stories, plus
 Replaces the multi-person cross-review.
 - **Sample:** all 5 pilot stories + a random ≥20% of the eligible main stories (≥6 of 30), drawn with the seed in `src/config.py`.
 - **Blind re-annotation:** the annotator re-annotates each sampled story from the text **without looking at its manifest row**, ideally after a gap of at least a few days. Rows go to `manifest/review_wyte.csv` (same columns as the manifest).
-- **Compare** the blind pass with `manifest/annotations.csv` (the Claude-assisted drafts):
+- **Compare** the blind pass with `manifest/annotations.csv` / `manifest/pilot.csv` (the Claude-assisted drafts):
   - Culprit: exact match rate of the principal (and of the full culprit list).
   - Reveal: exact match rate, and within ±2 paragraphs.
   - Aliases: precision/recall/F1 of the culprit's alias set.
@@ -42,6 +42,6 @@ Replaces the multi-person cross-review.
 ## 6. Deliverables / definition of done
 - [x] `manifest/annotations.csv` complete; `reveal_pct` filled by code
 - [x] `culprit_before_reveal` filled for every included story
-- [x] Exclusion reasons recorded for every excluded candidate (`exclusion_reason` column)
+- [x] Exclusion reasons recorded for every excluded candidate (`manifest/excluded.csv`)
 - [ ] Blind re-annotation check (section 5): agreement numbers + pilot summary (1 page)
 - [ ] Guideline v1.0

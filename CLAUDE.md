@@ -9,7 +9,7 @@ Course project (Data Mining) "Predicting Culprits in Detective Fiction Under Inc
 ## Hard rules
 1. `data/raw/` is immutable. Never edit or regenerate by hand.
 2. `data/processed/<story_id>.txt` has fixed paragraph numbers `[0001]`. Never renumber, merge or split paragraphs after annotation starts; annotations depend on them.
-3. **Ground truth comes only from reading the text.** `data/corpus_candidates.csv` and `docs/story_list.md` contain culprit names recalled from memory; they are unverified and must not be copied into `manifest/annotations.csv`. When asked to annotate, locate evidence in the text and quote it.
+3. **Ground truth comes only from reading the text.** `data/corpus_candidates.csv` contains culprit names recalled from memory (`expected_culprit_from_memory`); they are unverified and must not be copied into `manifest/annotations.csv`. When asked to annotate, locate evidence in the text and quote it.
 4. `reveal_pct` is computed by code (`reveal_para_idx / n_paragraphs`), never typed by hand. So is the exclusion `other:reveal_before_80pct` (reveal_para_idx ≤ 0.8 × n_paragraphs). Write annotation rows with `python -m src.annotate spec.json`, which also checks quotes and aliases against the text.
 5. Alias surface forms and the character roster come only from text **before** the reveal paragraph. Exception (guideline v0.3): a pseudonym is merged into the real name whenever the text states they are the same person, even if only at/after the reveal; `manifest/alias_links.csv` records the linking paragraph and quote so the feature pipeline can also run a prefix-only variant (`src/aliases.py: prefix_only_aliases`).
 6. In the masking experiments the character roster is fixed from the unmasked prefix; only features are recomputed.
@@ -18,10 +18,13 @@ Course project (Data Mining) "Predicting Culprits in Detective Fiction Under Inc
 9. Do not claim or report numbers that were not produced by code in this repo.
 
 ## Conventions
+- Manifest = three CSVs with the same columns: `manifest/annotations.csv` (30 eligible main stories), `manifest/pilot.csv` (P1–P5), `manifest/excluded.csv` (screened out). `src.annotate` routes each row by story_id/exclusion_reason; never edit them by hand.
 - Manifest columns: `story_id,title,annotator,culprit,reveal_para_idx,reveal_pct,reveal_quote,aliases,culprit_before_reveal,exclusion_reason,notes`.
 - `exclusion_reason` ∈ `multiple_culprits | non_criminal | unresolved | non_human | culprit_unnamed | other:<text>`.
 - One annotator (`wyte`) does all annotation. Reliability check = blind re-annotation by the same annotator of the pilot + ≥20% of main stories (seed in `src/config.py`), stored in `manifest/review_wyte.csv` with the manifest columns; see `docs/01_data_annotation.md` §5.
 - Notebooks are numbered `NN_name.ipynb`, run top to bottom, outputs cleared before commit.
+
+- `docs/story_list.md` lists only the 30 eligible main stories (no culprits); regenerate it from the manifest when eligibility changes.
 
 ## Commands
 ```bash

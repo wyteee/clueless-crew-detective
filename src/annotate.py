@@ -1,5 +1,11 @@
-"""Write one annotation row to manifest/annotations.csv from a JSON spec, after checking it
-against the text, and recompute the code-derived fields for every row.
+"""Write one annotation row from a JSON spec, after checking it against the text, and recompute
+the code-derived fields for every row.
+
+The manifest is split into three files with the same columns:
+- manifest/annotations.csv  eligible main-corpus stories (exclusion_reason empty);
+- manifest/pilot.csv        pilot stories P1-P5 (development only);
+- manifest/excluded.csv     screened-out candidates (exclusion_reason filled).
+A row moves between annotations.csv and excluded.csv automatically when its exclusion changes.
 
 Usage:  python -m src.annotate path/to/spec.json
 
@@ -24,6 +30,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "manifest" / "annotations.csv"
+PILOT = ROOT / "manifest" / "pilot.csv"
+EXCLUDED = ROOT / "manifest" / "excluded.csv"
 FIELDS = ["annotator", "culprit", "reveal_para_idx", "reveal_quote", "culprit_before_reveal",
           "exclusion_reason", "notes"]
 EARLY = "other:reveal_before_80pct"
@@ -72,10 +80,24 @@ def recompute(m):
     return m
 
 
+def load_manifest():
+    """All rows of the three manifest files in one DataFrame."""
+    return pd.concat([pd.read_csv(f, dtype=str, keep_default_na=False) for f in (PILOT, MANIFEST, EXCLUDED)],
+                     ignore_index=True)
+
+
+def save_manifest(m):
+    pilot = m.story_id.str.match(r"P\d")
+    excluded = ~pilot & (m.exclusion_reason != "")
+    m[pilot].to_csv(PILOT, index=False)
+    m[~pilot & ~excluded].to_csv(MANIFEST, index=False)
+    m[excluded].to_csv(EXCLUDED, index=False)
+
+
 def write_row(spec):
     check_spec(spec)
     sid = spec["story_id"]
-    m = pd.read_csv(MANIFEST, dtype=str, keep_default_na=False)
+    m = load_manifest()
     if not (m.story_id == sid).any():  # stories not pre-listed in the manifest (reserves)
         cand = pd.read_csv(ROOT / "data" / "corpus_candidates.csv").set_index("list_id")
         row = {c: "" for c in m.columns} | {"story_id": sid, "title": cand.loc[sid, "title"]}
@@ -85,7 +107,7 @@ def write_row(spec):
         m.loc[i, k] = str(spec.get(k, "") or "")
     m.loc[i, "aliases"] = json.dumps(spec["aliases"], ensure_ascii=False) if spec.get("aliases") else ""
     m = recompute(m)
-    m.to_csv(MANIFEST, index=False)
+    save_manifest(m)
     return m.loc[i]
 
 

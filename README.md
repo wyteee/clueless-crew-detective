@@ -17,7 +17,10 @@ Can we predict the culprit of a detective story *before* the solution is reveale
 data/raw/            Gutenberg downloads (never edited)
 data/processed/      cleaned, paragraph-numbered texts: [0001] ...
 data/corpus_candidates.csv   candidate story list (pilot/main/reserve)
-manifest/annotations.csv     annotation table (source of truth)
+manifest/annotations.csv     annotations of the 30 eligible main stories (source of truth)
+manifest/pilot.csv           pilot P1–P5 annotations (development only)
+manifest/excluded.csv        screened-out candidates with exclusion_reason
+manifest/alias_links.csv     pseudonym / maiden-name links (paragraph + quote)
 docs/                guideline, step docs, story list
 notebooks/           numbered notebooks (01_prepare_corpus, ...)
 src/                 reusable code (features, experiments)
