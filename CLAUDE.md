@@ -20,7 +20,7 @@ Course project (Data Mining) "Predicting Culprits in Detective Fiction Under Inc
 ## Conventions
 - Manifest columns: `story_id,title,annotator,culprit,reveal_para_idx,reveal_pct,reveal_quote,aliases,culprit_before_reveal,exclusion_reason,notes`.
 - `exclusion_reason` ∈ `multiple_culprits | non_criminal | unresolved | non_human | culprit_unnamed | other:<text>`.
-- Cross-review rows: same `story_id`, different `annotator`, stored in that person's own CSV.
+- One annotator (`wyte`) does all annotation. Reliability check = blind re-annotation by the same annotator of the pilot + ≥20% of main stories (seed in `src/config.py`), stored in `manifest/review_wyte.csv` with the manifest columns; see `docs/01_data_annotation.md` §5.
 - Notebooks are numbered `NN_name.ipynb`, run top to bottom, outputs cleared before commit.
 
 ## Commands

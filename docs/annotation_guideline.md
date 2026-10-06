@@ -1,4 +1,4 @@
-# Annotation Guideline v0.10 (Clueless Crew)
+# Annotation Guideline v0.11 (Clueless Crew)
 
 对象：清洗后、带段落编号 `[0001]` 的单篇文本（data/processed）。raw 文件不改。
 
@@ -35,15 +35,15 @@
 - **culprit_before_reveal**：`yes` 若**主犯**的任一 alias 在 reveal 段之前出现过，否则 `no`。
 - **reveal_pct**：程序计算，不要手填。
   - 若 reveal 不在全文 80% 之后（`reveal_para_idx ≤ 0.8 × 总段数`），80% 前缀会含揭晓，故事排除：程序自动填 `exclusion_reason = other:reveal_before_80pct`。罪犯、reveal 等字段照常保留作记录。
-- **annotator**：标注者姓名；交叉复核时复核者另起一行，story_id 相同，annotator 不同。
+- **annotator**：标注者姓名（目前只有一名标注者 `wyte`）。盲复标（不看 manifest 原行、重新从原文标注）的结果写入 `manifest/review_wyte.csv`，列与 manifest 相同，用来和 manifest 比较一致性（见 docs/01_data_annotation.md §5）。
 
 ## 一致性规则
 - 段号按文件里的 `[xxxx]` 为准；标题行、章节号行也占段号，不要手工重排。
-- reveal 差 ≤2 段视为"近似一致"，> 2 段需讨论并把结论写回本规范。
+- 盲复标与 manifest 的 reveal 差 ≤2 段视为"近似一致"，> 2 段需重读原文裁定，并把结论写回本规范。
 - 每次修改规范，版本号 +0.1 并在下方记录。
 
 ## 变更记录
-- v0.1 初稿，待 P1 交叉复核后修订。
+- v0.1 初稿。
 - v0.2（2026-10-04，P1 标注后）：明确"先暴露、后解释"时取暴露场景中第一次把罪行归到此人的段落（P1 取 [0245]，不取 [0248]）；aliases 只收名字类称呼，不收关系描述，同名冲突记入 notes。
 - v0.3（2026-10-04，P2–P5 标注后）：允许多个罪犯，全部标出，主犯放第一个，reveal 与 culprit_before_reveal 以主犯为准；只有无法确定主犯时才用 `multiple_culprits`。所有罪犯都标 aliases；原文说明过的化名并入真名（联系在 reveal 之后才说明时记出处）；未具名从犯 aliases 留空；是否算 crime 不看是否违法，`non_criminal` 只用于无人作恶的故事。
 - v0.4（2026-10-04，alias 检查后）：不收只有头衔、不带名字的称呼（P1 删去 "the Doctor"）；化名/误称联系统一记入 `manifest/alias_links.csv`（段号 + 引文）。
@@ -53,3 +53,4 @@
 - v0.8（2026-10-05，M01–M06 后）：标注前先筛 reveal 位置，80% 之前揭晓的只记罪犯和 reveal、不标 aliases（"先抓获后长篇解释"结构很常见）。
 - v0.9（2026-10-05，筛选后）：有人被杀时，动手杀人者为主犯（M21 Oberstein、M28 Hayes、R05 Antonelli）。
 - v0.10（2026-10-05）：同伙中动手者不明时，以头目/主事者为主犯（R07、R21）。
+- v0.11（2026-10-06）：改为单人标注；多人交叉复核改为同一标注者的盲复标（pilot + ≥20% 主语料，结果写入 `manifest/review_wyte.csv`）。

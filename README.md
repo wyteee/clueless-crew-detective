@@ -6,7 +6,7 @@ Can we predict the culprit of a detective story *before* the solution is reveale
 
 ## Research design (from the proposal)
 - **Corpus:** English detective stories from Project Gutenberg (Sherlock Holmes first). 5 pilot stories + ~30 eligible main stories. Main evaluation uses stories with **one identifiable human principal culprit**; named accomplices are annotated too. Stories with no clear principal (`multiple_culprits`), non-criminal, and unresolved cases are documented separately.
-- **Annotation (human):** culprit, earliest explicit reveal, character aliases. ≥20% of stories cross-reviewed.
+- **Annotation (human, one annotator):** culprit, earliest explicit reveal, character aliases; Claude-assisted drafts checked by code and by the annotator. Reliability: blind re-annotation of the pilot + ≥20% of main stories by the same annotator (no second human annotator; stated as a limitation).
 - **Features (code):** visibility (mention frequency, first appearance), interaction (paragraph co-occurrence network degree), crime language (crime-term frequency near each character). 7 feature-group combinations.
 - **Model:** regularized logistic regression over candidate characters; baselines = random ranking, mention frequency.
 - **Experiments:** (1) reveal-free prefix at 20/40/60/80% (stories whose reveal is not after 80% of the paragraphs are excluded, `other:reveal_before_80pct`); (2) at 80%, remove ~10/20/30% of words as scattered sentences vs. one continuous passage, fixed seeds; roster held fixed; train unmasked, test masked.
@@ -35,14 +35,14 @@ Open the folder **at the repo root** in VS Code and select the `.venv` kernel fo
 ## Status
 | Phase | Weeks | Status |
 |---|---|---|
-| Step 1 – Data annotation (pilot → corpus) | 1–4 | **in progress** – see [docs/01_data_annotation.md](docs/01_data_annotation.md) |
+| Step 1 – Data annotation (pilot → corpus) | 1–4 | **main annotation done** (30 eligible stories); blind re-annotation check and guideline v1.0 pending – see [docs/01_data_annotation.md](docs/01_data_annotation.md) |
 | Features & prediction | 5–8 | not started |
 | Masking experiments | 9–10 | not started |
 | Analysis & report | 11–12 | not started |
 
 ## Collaboration rules
-- One branch per person (`annot-<name>`), merge via Pull Request.
-- During annotation each person writes to `manifest/annotations_<name>.csv`; merge into `annotations.csv` after review.
+- Annotation and preprocessing are done by one person, committing directly to `main`.
+- Annotation rows are written with `python -m src.annotate spec.json` (checks quotes and aliases against the text, computes `reveal_pct`); blind re-annotation rows go to `manifest/review_<annotator>.csv`.
 - Clear notebook outputs before committing (`nbstripout --install`).
 - All random seeds live in one `src/config.py`.
 
@@ -50,4 +50,4 @@ Open the folder **at the repo root** in VS Code and select the `.venv` kernel fo
 Texts come from Project Gutenberg and follow its [robot access policy](https://www.gutenberg.org/policy/robot_access.html): download once, throttle, work from local copies.
 
 ## Limitations (stated up front)
-Small corpus, extraction errors, artificial text removal. Findings describe this corpus; prediction accuracy is not a measure of literary quality.
+Small corpus, a single annotator (reliability measured only by blind self re-annotation), extraction errors, artificial text removal. Findings describe this corpus; prediction accuracy is not a measure of literary quality.
