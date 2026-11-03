@@ -8,9 +8,9 @@ Can we predict the culprit of a detective story *before* the solution is reveale
 - **Corpus:** English detective stories from Project Gutenberg (Sherlock Holmes first). 5 pilot stories + ~30 eligible main stories. Main evaluation uses stories with **one identifiable human principal culprit**; named accomplices are annotated too. Stories with no clear principal (`multiple_culprits`), non-criminal, and unresolved cases are documented separately.
 - **Annotation (human, one annotator):** culprit, earliest explicit reveal, character aliases; Claude-assisted drafts checked by code and by the annotator. Reliability: blind re-annotation of the pilot + ≥20% of main stories by the same annotator (no second human annotator; stated as a limitation).
 - **Features (code):** visibility (mention frequency, first appearance), interaction (paragraph co-occurrence network degree), crime language (crime-term frequency near each character). 7 feature-group combinations.
-- **Model:** regularized logistic regression over candidate characters; baselines = random ranking, mention frequency.
+- **Model (v2):** penalised conditional logit over the candidates of each story (main); L2 logistic regression as comparison; baselines = random ranking, mention frequency. C fixed at 1.0 with a sensitivity table.
 - **Experiments:** (1) reveal-free prefix at 20/40/60/80% (stories whose reveal is not after 80% of the paragraphs are excluded, `other:reveal_before_80pct`); (2) at 80%, remove ~10/20/30% of words as scattered sentences vs. one continuous passage, fixed seeds; roster held fixed; train unmasked, test masked.
-- **Evaluation:** 5-fold GroupKFold by story (pilot excluded), Top-1 and MRR scored against the principal culprit, paired comparisons and story-level bootstrap CIs, candidate coverage reported (absent culprit = failure).
+- **Evaluation (v2):** leave-one-story-out over the 30 eligible stories (pilot excluded), Top-1 and MRR scored against the principal culprit, paired comparisons and story-level bootstrap CIs, coverage and metrics conditional on a visible culprit reported (absent culprit = failure). Aliases use only pre-reveal evidence (pseudonyms linked at/after the reveal stay separate nodes). Every change from v1 is listed in [docs/03_revision_plan.md](docs/03_revision_plan.md).
 
 ## Repo layout
 ```
@@ -23,7 +23,10 @@ manifest/excluded.csv        screened-out candidates with exclusion_reason
 manifest/alias_links.csv     pseudonym / maiden-name links (paragraph + quote)
 docs/                guideline, step docs, story list
 notebooks/           numbered notebooks (01_prepare_corpus, ...)
-src/                 reusable code (features, experiments)
+src/                 reusable code (features, masking, evaluate, experiments)
+outputs/v2/          current results (python -m src.experiments)
+outputs/v2_full_alias/  sensitivity run with all alias links merged
+outputs/v1_initial/  first run (5-fold, logistic regression, full alias merges), kept for comparison
 ```
 
 ## Setup
@@ -39,8 +42,8 @@ Open the folder **at the repo root** in VS Code and select the `.venv` kernel fo
 | Phase | Weeks | Status |
 |---|---|---|
 | Step 1 – Data annotation (pilot → corpus) | 1–4 | **main annotation done** (30 eligible stories); blind re-annotation check and guideline v1.0 pending – see [docs/01_data_annotation.md](docs/01_data_annotation.md) |
-| Features & prediction | 5–8 | not started |
-| Masking experiments | 9–10 | not started |
+| Features & prediction | 5–8 | **v2 run done** (revised after proposal feedback) – see [docs/02_features_and_experiments.md](docs/02_features_and_experiments.md), [docs/03_revision_plan.md](docs/03_revision_plan.md) |
+| Masking experiments | 9–10 | **v2 run done** (`python -m src.experiments`, ~5 min) |
 | Analysis & report | 11–12 | not started |
 
 ## Collaboration rules

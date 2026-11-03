@@ -4,16 +4,16 @@
 Course project (Data Mining) "Predicting Culprits in Detective Fiction Under Incomplete Information". See README.md for the design. Team members mostly write in Chinese; reply in the language the user uses. Code, comments and docs stay in English.
 
 ## Current phase
-**Step 1: data annotation.** Read `docs/01_data_annotation.md` and `docs/annotation_guideline.md` before touching data.
+Annotation done (blind re-annotation check pending); features, prediction and masking experiments in v2 (`docs/02_features_and_experiments.md`, changes from v1 in `docs/03_revision_plan.md`). Read `docs/01_data_annotation.md` and `docs/annotation_guideline.md` before touching data.
 
 ## Hard rules
 1. `data/raw/` is immutable. Never edit or regenerate by hand.
 2. `data/processed/<story_id>.txt` has fixed paragraph numbers `[0001]`. Never renumber, merge or split paragraphs after annotation starts; annotations depend on them.
 3. **Ground truth comes only from reading the text.** `data/corpus_candidates.csv` contains culprit names recalled from memory (`expected_culprit_from_memory`); they are unverified and must not be copied into `manifest/annotations.csv`. When asked to annotate, locate evidence in the text and quote it.
 4. `reveal_pct` is computed by code (`reveal_para_idx / n_paragraphs`), never typed by hand. So is the exclusion `other:reveal_before_80pct` (reveal_para_idx ≤ 0.8 × n_paragraphs). Write annotation rows with `python -m src.annotate spec.json`, which also checks quotes and aliases against the text.
-5. Alias surface forms and the character roster come only from text **before** the reveal paragraph. Exception (guideline v0.3): a pseudonym is merged into the real name whenever the text states they are the same person, even if only at/after the reveal; `manifest/alias_links.csv` records the linking paragraph and quote so the feature pipeline can also run a prefix-only variant (`src/aliases.py: prefix_only_aliases`).
+5. Alias surface forms and the character roster come only from text **before** the reveal paragraph. Exception (guideline v0.3): a pseudonym is merged into the real name whenever the text states they are the same person, even if only at/after the reveal; `manifest/alias_links.csv` records the linking paragraph and quote so the feature pipeline can use prefix-only evidence. Since v2 the feature pipeline uses `prefix_only_aliases` by default (`config.ALIAS_MODE`); the full merge is a sensitivity run only.
 6. In the masking experiments the character roster is fixed from the unmasked prefix; only features are recomputed.
-7. No random seeds outside `src/config.py`. Pilot stories (P1–P5) are development-only and excluded from the GroupKFold evaluation.
+7. No random seeds outside `src/config.py`. Pilot stories (P1–P5) are development-only and excluded from the leave-one-story-out evaluation. The crime-term list in `src/features.py` is frozen; do not tune it on the 30 evaluation stories.
 8. Gutenberg: download once with a descriptive User-Agent and a delay, per its robot access policy; then read local files.
 9. Do not claim or report numbers that were not produced by code in this repo.
 
