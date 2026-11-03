@@ -47,3 +47,22 @@ Instructor feedback points referred to below:
 - **Principal for M20 and M23** still marked "to be confirmed" in the notes.
 - **Blind re-annotation check** and guideline v1.0 (docs/01 §5–6).
 - **By-author sensitivity** (Holmes 16, Christie 10, Father Brown 4) — can be added once v2 is agreed.
+
+## v2 results vs v1 (full pre-reveal text, MRR)
+Produced by code in this repo: v1 = `outputs/v1_initial/` (5-fold, inner-CV C, logistic regression, all alias links merged, v1 lexicon); v2 = `outputs/v2/` (LOSO, C = 1, prefix-only aliases); v2 full alias = `outputs/v2_full_alias/` (same as v2 but all links merged).
+
+| method | v1 logreg | v2 clogit | v2 logreg | v2 clogit, full alias |
+|---|---|---|---|---|
+| V | 0.38 | 0.35 | 0.39 | 0.39 |
+| I | 0.43 | 0.44 | 0.47 | 0.45 |
+| C | 0.33 | 0.41 | 0.42 | 0.37 |
+| V+I | 0.45 | 0.40 | 0.43 | 0.43 |
+| V+C | 0.37 | 0.42 | 0.36 | 0.44 |
+| I+C | 0.48 | 0.48 | 0.48 | 0.49 |
+| V+I+C | 0.41 | 0.43 | 0.46 | 0.44 |
+| mention_freq | 0.42 | 0.40 | 0.40 | 0.42 |
+| random | 0.37 | 0.39 | 0.39 | 0.37 |
+
+- The conclusion does not change: no feature combination is clearly better than the baselines; all CIs are about ±0.11.
+- Merging post-reveal pseudonym links raises visibility-type methods (mention_freq 0.40 → 0.42, clogit V 0.35 → 0.39), as expected from extra culprit mentions; the size of the leak is small at the corpus level but real for M05 (clogit V+I+C RR 0.33 prefix-only vs 0.50 merged).
+- Random differs between v1 and v2 because pseudonym nodes add candidates and give best-of-k credit (R3).
