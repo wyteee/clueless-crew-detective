@@ -1,6 +1,8 @@
 pandas>=2.0
 numpy
-scikit-learn>=1.3
+scikit-learn>=1.6
+scipy
+joblib
 spacy>=3.7
 networkx
 matplotlib

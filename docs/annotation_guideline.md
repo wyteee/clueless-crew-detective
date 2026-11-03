@@ -1,4 +1,4 @@
-# Annotation Guideline v0.11 (Clueless Crew)
+# Annotation Guideline v0.13 (Clueless Crew)
 
 对象：清洗后、带段落编号 `[0001]` 的单篇文本（data/processed）。raw 文件不改。
 
@@ -32,14 +32,15 @@
     每个化名/误称联系另在 `manifest/alias_links.csv` 记一行（`story_id, character, forms, link_para_idx, link_quote`），reveal 前说明的也要记（如 P3 "John Robinson" [0169]）；代码据此生成"只用 reveal 前证据"的版本。
   - 收入的称呼本身须在 reveal 段之前出现过。若同一称呼会匹配到别人（如 P1 中 "Roylott" 也匹配 Helen 的 "Miss Roylott"），在 notes 记录。
   - 未具名的从犯没有名字可收，aliases 留空列表（如 P4 `"[unnamed: Mary's mother]": []`），不要用 "mother" 这类有歧义的称呼。
+  - **主犯在 reveal 前没有自己的名字时（v0.12）**：收文本在 reveal 前用来指这个人的固定称呼（handle），例如签名、反复出现的特定描述（M26 "the lady"、R07 "K. K. K."、R12 "your double"、R23 "G."）。条件：该称呼在 reveal 前的文本里**只指主犯、不指别人**（R23 的 "lodger" 也指他妻子，不收）；只收原文字面出现的形式；在 notes 写明段号和理由。这样主犯在 reveal 前至少作为一个可猜的候选人出现。
+  - **调查者也进 roster（v0.13）**：侦探、助手/叙述者、警察都作为候选人收入 aliases（如 Sherlock Holmes、Dr. Watson、Hercule Poirot、Captain Hastings、Father Brown、Lestrade、Japp），只收 reveal 前出现的名字形式。叙述者自称的 "I" 不计。只是被提到名字、不在故事里出场的文学引用不收（如 C12 提到 Sherlock Holmes）。
 - **culprit_before_reveal**：`yes` 若**主犯**的任一 alias 在 reveal 段之前出现过，否则 `no`。
 - **reveal_pct**：程序计算，不要手填。
   - 若 reveal 不在全文 80% 之后（`reveal_para_idx ≤ 0.8 × 总段数`），80% 前缀会含揭晓，故事排除：程序自动填 `exclusion_reason = other:reveal_before_80pct`。罪犯、reveal 等字段照常保留作记录。
-- **annotator**：标注者姓名（目前只有一名标注者 `wyte`）。盲复标（不看 manifest 原行、重新从原文标注）的结果写入 `manifest/review_wyte.csv`，列与 manifest 相同，用来和 manifest 比较一致性（见 docs/01_data_annotation.md §5）。
+- **annotator**：标注者姓名（只有一名标注者 `wyte`）。不做复标一致性检查（v0.13），在报告中作为局限性说明。
 
 ## 一致性规则
 - 段号按文件里的 `[xxxx]` 为准；标题行、章节号行也占段号，不要手工重排。
-- 盲复标与 manifest 的 reveal 差 ≤2 段视为"近似一致"，> 2 段需重读原文裁定，并把结论写回本规范。
 - 每次修改规范，版本号 +0.1 并在下方记录。
 
 ## 变更记录
@@ -54,3 +55,5 @@
 - v0.9（2026-10-05，筛选后）：有人被杀时，动手杀人者为主犯（M21 Oberstein、M28 Hayes、R05 Antonelli）。
 - v0.10（2026-10-05）：同伙中动手者不明时，以头目/主事者为主犯（R07、R21）。
 - v0.11（2026-10-06）：改为单人标注；多人交叉复核改为同一标注者的盲复标（pilot + ≥20% 主语料，结果写入 `manifest/review_wyte.csv`）。
+- v0.12（2026-11-03）：主犯在 reveal 前没有自己名字的 4 篇（M26、R07、R12、R23）改为收 reveal 前只指主犯的固定称呼，`culprit_before_reveal` 随之变为 yes；M20（主犯 Burnwell）和 M23（主犯 Gilchrist、从犯 Bannister）由标注者确认。
+- v0.13（2026-11-03）：roster 保留所有人：侦探、助手/叙述者、警察都收入 aliases（30 篇全部补齐）。取消盲复标（v0.11），单人标注、无一致性检查作为局限性写入报告。

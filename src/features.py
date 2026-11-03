@@ -1,8 +1,12 @@
 """Candidate features: one row per roster character per story (frozen interface `get_features`).
 
-Roster = the characters of the hand-built alias table in the manifest (pre-reveal forms, guideline
-v0.3 merges). It is fixed for a story; masks change only the visible text (CLAUDE.md rule 6), so a
-character can have zero mentions in a masked text and still be a candidate.
+Roster = the characters of the hand-built alias table in the manifest (pre-reveal forms). With
+config.ALIAS_MODE = "prefix_only" (default, v2) a pseudonym whose link to the real name is stated only
+at/after the reveal is a separate node "<name> [as <pseudonym>]" (aliases.prefix_only_aliases); every
+node of the principal culprit counts as the culprit, every node of an accomplice as an accomplice.
+"full" merges all links (v1 behaviour, kept as a sensitivity run). The roster is fixed for a story;
+masks change only the visible text (CLAUDE.md rule 6), so a character can have zero mentions in a
+masked text and still be a candidate.
 
 Mentions: exact, case-sensitive alias forms, longest form first and non-overlapping, so
 "Miss Turner" claims its "Turner" before the bare "Turner" (John Turner) is matched.
@@ -30,7 +34,7 @@ import numpy as np
 import pandas as pd
 
 from src import config
-from src.aliases import read_paragraphs
+from src.aliases import load_alias_links, prefix_only_aliases, read_paragraphs
 from src.masking import full_prefix_mask, story_units
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,8 +53,8 @@ CRIME_STEMS = [
     "murder", "kill", "slay", "slain", "dead", "death", "died", "dying", "corpse", "body", "blood",
     "wound", "stabbed", "stabbing", "strangl", "shot", "shoot", "violen", "attack", "assault",
     # weapons and means
-    "weapon", "pistol", "revolver", "gun", "knife", "dagger", "poison", "strychnine", "arsenic",
-    "rope", "harpoon",
+    "weapon", "pistol", "revolver", "gun", "knife", "dagger", "poison", "arsenic", "rope",
+    # (v2: removed the story-specific "harpoon" (M07) and "strychnine" (C12); list frozen)
     # property crime and deceit
     "crime", "criminal", "guilt", "thief", "theft", "steal", "stole", "stolen", "robbe", "robbed", "burglar",
     "fraud", "forger", "forged", "blackmail", "disguis", "lied", "liar", "false", "conceal", "hidden", "hiding",
@@ -70,9 +74,22 @@ def load_story_meta(story_id):
         if (m.story_id == story_id).any():
             r = m.set_index("story_id").loc[story_id]
             culprits = r.culprit.split("; ")
+            aliases = json.loads(r.aliases)
+            if config.ALIAS_MODE == "prefix_only":
+                links = load_alias_links()
+                aliases = prefix_only_aliases(aliases, links[links.story_id == story_id], int(r.reveal_para_idx))
+                # a real name known before the reveal only through its pseudonym keeps no forms: drop it
+                aliases = {c: fs for c, fs in aliases.items() if fs}
+            elif config.ALIAS_MODE != "full":
+                raise ValueError(config.ALIAS_MODE)
             return {"reveal_para_idx": int(r.reveal_para_idx), "principal": culprits[0],
-                    "accomplices": culprits[1:], "aliases": json.loads(r.aliases)}
+                    "accomplices": culprits[1:], "aliases": aliases}
     raise KeyError(story_id)
+
+
+def base_character(node):
+    """Real character of a roster node ("Killer Evans [as Mr. John Garrideb]" -> "Killer Evans")."""
+    return node.split(" [as ")[0]
 
 
 def eligible_story_ids():
@@ -168,7 +185,8 @@ def get_features(story_id, text_mask=None):
         hits = int((is_crime & near[c]).sum()) if c in near else 0
         rows.append({
             "story_id": story_id, "character": c,
-            "is_culprit": int(c == meta["principal"]), "is_accomplice": int(c in meta["accomplices"]),
+            "is_culprit": int(base_character(c) == meta["principal"]),
+            "is_accomplice": int(base_character(c) in meta["accomplices"]),
             "n_mentions": n,
             "v_log_mentions": np.log1p(n),
             "v_mention_share": n / len(mentions) if len(mentions) else 0.0,

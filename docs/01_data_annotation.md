@@ -2,11 +2,11 @@
 
 Goal: verified annotations for 5 pilot (`manifest/pilot.csv`) + 30 main stories (`manifest/annotations.csv`; excluded candidates in `manifest/excluded.csv`), plus cleaned, paragraph-numbered texts.
 
-**Team setup:** one annotator (`wyte`) does all preprocessing and annotation and commits directly to `main`. Annotation rows are Claude-assisted drafts: every row is written with `python -m src.annotate spec.json` (quotes and alias forms checked against the text by code) and must be confirmed by the annotator against the quoted paragraphs. There is no second human annotator, so the inter-annotator cross-review of the original plan is replaced by a blind re-annotation check (section 5).
+**Team setup:** one annotator (`wyte`) does all preprocessing and annotation and commits directly to `main`. Annotation rows are Claude-assisted drafts: every row is written with `python -m src.annotate spec.json` (quotes and alias forms checked against the text by code) and must be confirmed by the annotator against the quoted paragraphs. There is no second human annotator and no reliability re-annotation (section 5); this is stated as a limitation.
 
 ## 0. Decisions (made)
 - [x] **Corpus scope.** Holmes + Father Brown + Agatha Christie (*Poirot Investigates*, *The Mysterious Affair at Styles*); candidates and reserves in `data/corpus_candidates.csv`.
-- [x] **Who annotates.** One annotator for all stories; reliability via the blind re-annotation check below.
+- [x] **Who annotates.** One annotator for all stories; no reliability re-annotation (section 5).
 - [x] **Earliest explicit reveal.** Defined in `docs/annotation_guideline.md` (v0.2, v0.5).
 
 ## 1. Setup
@@ -15,7 +15,6 @@ Goal: verified annotations for 5 pilot (`manifest/pilot.csv`) + 30 main stories 
 
 ## 2. Pilot annotation
 - [x] Annotate P1–P5; fix ambiguities in the guideline and bump its version (v0.2–v0.4).
-- [ ] Blind re-annotation of P1–P5 (section 5) and a one-page pilot summary.
 
 ## 3. Alias reliability check
 - [x] Compare hand-built alias tables against a rule-based merge (Mr./Dr. + surname, surname-only, full-name containment), with and without links stated only after the reveal: `notebooks/02_alias_check.ipynb`, results in `outputs/alias_*.csv`.
@@ -28,20 +27,16 @@ Goal: verified annotations for 5 pilot (`manifest/pilot.csv`) + 30 main stories 
 - Annotate the novels last; they are 5–8× longer.
 - [x] Screening done; 30 eligible stories fully annotated (aliases, `culprit_before_reveal`, `alias_links.csv`).
 
-## 5. Reliability check (single annotator)
-Replaces the multi-person cross-review.
-- **Sample:** all 5 pilot stories + a random ≥20% of the eligible main stories (≥6 of 30), drawn with the seed in `src/config.py`.
-- **Blind re-annotation:** the annotator re-annotates each sampled story from the text **without looking at its manifest row**, ideally after a gap of at least a few days. Rows go to `manifest/review_wyte.csv` (same columns as the manifest).
-- **Compare** the blind pass with `manifest/annotations.csv` / `manifest/pilot.csv` (the Claude-assisted drafts):
-  - Culprit: exact match rate of the principal (and of the full culprit list).
-  - Reveal: exact match rate, and within ±2 paragraphs.
-  - Aliases: precision/recall/F1 of the culprit's alias set.
-- **Resolve** each disagreement by rereading the text; fix the manifest row via `src.annotate` and record any rule change in the guideline's change log.
-- **Report** the numbers as agreement between the blind human pass and the assisted draft, and state as a limitation that there is no agreement between two independent human annotators.
+## 5. Reliability check (dropped)
+The blind re-annotation planned in guideline v0.11 was dropped (decision 2026-11-03, guideline v0.13). There is one annotator and no agreement measure; the report states this as a limitation.
+
+## 5a. Revisions after the first results (guideline v0.12–v0.13, 2026-11-03)
+- [x] M26, R07, R12, R23: the principal has no name of their own before the reveal; the pre-reveal handle that refers only to the principal is recorded as an alias ('the lady'/'this lady', 'K. K. K.', 'your double'/'other Hall Pycroft', 'G.'/'the man who took the rooms').
+- [x] M20 (principal Burnwell) and M23 (principal Gilchrist, accomplice Bannister) confirmed by the annotator.
+- [x] Every roster keeps the investigators: detective, sidekick/narrator and police named before the reveal.
 
 ## 6. Deliverables / definition of done
 - [x] `manifest/annotations.csv` complete; `reveal_pct` filled by code
 - [x] `culprit_before_reveal` filled for every included story
 - [x] Exclusion reasons recorded for every excluded candidate (`manifest/excluded.csv`)
-- [ ] Blind re-annotation check (section 5): agreement numbers + pilot summary (1 page)
-- [ ] Guideline v1.0
+- [x] Guideline v0.13 (handles for unnamed principals, investigators in every roster)
