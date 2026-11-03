@@ -127,7 +127,7 @@ def plot_exp2(t, fig_dir, methods=("V+I+C", "V", "mention_freq")):
     plt.close(fig)
 
 
-def main(out="v2", quick=False):
+def main(out="v3", quick=False):
     res_dir, fig_dir = ROOT / "outputs" / out / "results", ROOT / "outputs" / out / "figures"
     res_dir.mkdir(parents=True, exist_ok=True)
     fig_dir.mkdir(parents=True, exist_ok=True)
@@ -212,7 +212,7 @@ def main(out="v2", quick=False):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default="v2")
+    ap.add_argument("--out", default="v3")
     ap.add_argument("--quick", action="store_true")
     a = ap.parse_args()
     main(a.out, a.quick)

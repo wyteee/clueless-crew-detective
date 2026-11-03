@@ -1,8 +1,8 @@
 # Step 2–3: Features, prediction and masking experiments (W5–W10)
 
 Run everything: `python -m src.experiments` (about 5 min; `--quick` uses 2 deletion seeds).
-Tables go to `outputs/v2/results/`, figures to `outputs/v2/figures/`. All seeds and constants are in `src/config.py`.
-Sensitivity run with all alias links merged: `CCD_ALIAS_MODE=full python -m src.experiments --out v2_full_alias`.
+Tables go to `outputs/v3/results/`, figures to `outputs/v3/figures/`. All seeds and constants are in `src/config.py`.
+Sensitivity run with all alias links merged: `CCD_ALIAS_MODE=full python -m src.experiments --out v3_full_alias`.
 
 This is **v2**, revised after the proposal feedback. Every change from the first run (v1, outputs kept in
 `outputs/v1_initial/`) and the formal definitions for the report are in [03_revision_plan.md](03_revision_plan.md).
@@ -17,7 +17,7 @@ This is **v2**, revised after the proposal feedback. Every change from the first
 | `src/experiments.py` | builds all conditions, runs CV, writes tables and figures |
 
 ## Design decisions
-1. **Roster** = the characters of the manifest alias table, fixed per story (same for every prefix and deletion). With prefix-only aliases (default) a pseudonym linked only at/after the reveal is its own node, e.g. `Jonas Oldacre [as Mr. Cornelius]`; all nodes of the principal culprit count as the culprit. A masked text can leave a node with 0 mentions; it stays a candidate (CLAUDE.md rule 6). The roster is hand-built (3–15 nodes per story), not extracted by NER.
+1. **Roster** = the characters of the manifest alias table, including investigators (guideline v0.13), fixed per story (same for every prefix and deletion). With prefix-only aliases (default) a pseudonym linked only at/after the reveal is its own node, e.g. `Jonas Oldacre [as Mr. Cornelius]`; all nodes of the principal culprit count as the culprit. A masked text can leave a node with 0 mentions; it stays a candidate (CLAUDE.md rule 6). The roster is hand-built (5–17 nodes per story in v3), not extracted by NER.
 2. **Mentions** = exact alias forms, longest first, non-overlapping ("Miss Turner" claims its "Turner").
 3. **Features**, z-scored within each (condition, story) before the model:
    - visibility: log mentions, mention share, relative first-mention position, paragraph coverage;
@@ -30,31 +30,30 @@ This is **v2**, revised after the proposal feedback. Every change from the first
 8. **Deletion** works on sentence units of the 80% prefix: scattered = random sentences until the target share of words is hidden; continuous = one random window of target words. Realised shares in `mask_audit.csv`. 10 seeds per story; each story is averaged over seeds before the bootstrap.
 9. **Scoring** against the best visible principal node, expected Top-1/RR under random tie-breaking. No visible principal mention = failure for every method, including random. Each story/condition gets a `failure_type` (hit, tied_first, ranking_error, not_visible).
 
-## v2 results (30 eligible stories, leave-one-story-out, C = 1)
-Descriptive of this corpus and this procedure; see the reporting rules in 03_revision_plan.md.
+## Current results (v3: v2 code + guideline v0.13 annotations; 30 stories, LOSO, C = 1)
+Descriptive of this corpus and this procedure; see the reporting rules in 03_revision_plan.md. v2 results (before the annotation changes) are in `outputs/v2/` and summarised in 03_revision_plan.md.
 
-**Full pre-reveal text** (`exp0_full_text.csv`). Coverage 26/30 (0.867) for every method, so 0.867 is the ceiling on Top-1 and MRR.
+**Full pre-reveal text** (`outputs/v3/results/exp0_full_text.csv`). Every principal now has a visible node (coverage 30/30).
 
 | | V | I | C | V+I | V+C | I+C | V+I+C |
 |---|---|---|---|---|---|---|---|
-| clogit MRR | 0.35 | 0.44 | 0.41 | 0.40 | 0.42 | 0.48 | 0.43 |
-| logreg MRR | 0.39 | 0.47 | 0.42 | 0.43 | 0.36 | 0.48 | 0.46 |
+| clogit MRR | 0.52 | 0.29 | 0.48 | 0.44 | 0.49 | 0.48 | 0.49 |
+| logreg MRR | 0.50 | 0.37 | 0.45 | 0.43 | 0.48 | 0.48 | 0.46 |
 
-Baselines: mention_freq 0.40, random 0.39. Every 95% CI is about ±0.11–0.12.
+Baselines: mention_freq 0.30, random 0.37.
 
-- **Primary comparison 1** (clogit V+I+C − mention_freq, MRR): +0.03, 95% CI [−0.09, 0.17]; 12 stories better, 10 worse, 8 tied. No evidence that the features beat counting mentions on this corpus.
-- Conditional logit vs. logistic regression: no consistent difference (paired CIs mostly include 0; `exp0_model_comparison.csv`). Results are similar for all C in the grid (`c_sensitivity.csv`, V+I+C MRR 0.40–0.44 for clogit).
-- Failure types (clogit V+I+C): 7 hits, 19 ranking errors, 4 not visible. Most failures are ranking errors, not absent culprits.
+- **Primary comparison 1** (clogit V+I+C − mention_freq, MRR): +0.19, 95% CI [0.02, 0.36]; 21 stories better, 6 worse, 3 tied. Against random: +0.12 [0.01, 0.25].
+- The detective is the most-mentioned roster member in 27 of 30 stories, so the mention baseline mostly ranks the detective first. Part of the model's gain is learning to rank investigators down; the model still ranks an investigator first in 5 stories.
+- Interaction features alone are the weakest (0.29): the detective co-occurs with everyone.
+- Failure types (clogit V+I+C): 8 hits, 22 ranking errors, 0 not visible.
 
-**Experiment 1, prefixes** (`exp1_prefix.csv`, clogit V+I+C): MRR 0.28 / 0.37 / 0.42 / 0.42 at 20/40/60/80%, 0.43 on the full pre-reveal text. Coverage rises from 0.53 to 0.83 while MRR given a visible culprit stays about 0.51 at every share: the gain with more text comes from the culprit having appeared, not from better ranking among visible candidates. A "20%" prefix covers 15–41% of a story's pre-reveal text (median 26%) and 589–12,739 words (`prefix_information.csv`).
+**Experiment 1, prefixes** (clogit V+I+C): MRR 0.21 / 0.34 / 0.41 / 0.46 at 20/40/60/80%, 0.49 on the full pre-reveal text. Coverage 0.53 / 0.83 / 0.93 / 0.93; MRR given a visible culprit 0.40 / 0.41 / 0.44 / 0.50. A "20%" prefix covers 15–41% of a story's pre-reveal text and 589–12,739 words (`prefix_information.csv`).
 
-**Experiment 2, deletion** (`exp2_deletion.csv`, `exp2_paired.csv`):
-- **Primary comparison 2** (clogit V+I+C, scattered − continuous at 20%, MRR): +0.01, 95% CI [−0.03, 0.05]; 10 stories better under scattered, 15 under continuous.
-- Removing 10–30% of the words of the 80% prefix changes MRR by at most 0.05 for any method (largest: C, scattered, 30%); exploratory paired CIs exclude 0 in 2 of 21 feature-combination comparisons (I at 20%, V+I at 30%), compatible with chance.
+**Experiment 2, deletion**: **primary comparison 2** (clogit V+I+C, scattered − continuous at 20%): −0.01, 95% CI [−0.04, 0.01]; no difference. Exploratory paired CIs exclude 0 in 2 of 21 feature-combination comparisons (V at 30%, V+C at 20%), compatible with chance.
 
-**Alias sensitivity** (`outputs/v2_full_alias/`): see 03_revision_plan.md, section "v2 results vs v1".
+**Alias sensitivity** (`outputs/v3_full_alias/`): with all pseudonym links merged, clogit V+I+C 0.45 and mention_freq 0.32.
 
 ## Open points
 - The proposal slide names a TF-IDF candidate-text model as the main model; only the 7 feature combinations are implemented.
 - Exp 2 uses one base prefix (80%); the proposal slide speaks of 20% removal of the pre-reveal text.
-- Open annotation decisions (roster rule for police, principal of M20/M23, blind re-annotation) are listed in 03_revision_plan.md.
+- Planned next: information-matched prefixes (fixed word counts, MRR vs. culprit mentions), by-author and leave-one-author-out results, a filtered metric that does not penalise accomplices, and an error analysis of who is ranked above the culprit.

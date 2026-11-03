@@ -66,3 +66,35 @@ Produced by code in this repo: v1 = `outputs/v1_initial/` (5-fold, inner-CV C, l
 - The conclusion does not change: no feature combination is clearly better than the baselines; all CIs are about ±0.11.
 - Merging post-reveal pseudonym links raises visibility-type methods (mention_freq 0.40 → 0.42, clogit V 0.35 → 0.39), as expected from extra culprit mentions; the size of the leak is small at the corpus level but real for M05 (clogit V+I+C RR 0.33 prefix-only vs 0.50 merged).
 - Random differs between v1 and v2 because pseudonym nodes add candidates and give best-of-k credit (R3).
+
+## v3: annotation changes (guideline v0.12–v0.13, 2026-11-03)
+Code is unchanged; only the manifest changed. Results in `outputs/v3/` (and `outputs/v3_full_alias/`).
+
+| # | v2 | v3 | Why |
+|---|---|---|---|
+| A1 | In M26, R07, R12, R23 the principal had no alias before the reveal, so these 4 stories scored 0 for every method (coverage 26/30). | The pre-reveal handle that refers only to the principal is the principal's alias: M26 "the lady"/"this lady", R07 "K. K. K.", R12 "your double"/"other Hall Pycroft", R23 "G."/"the man who took the rooms". Coverage on the full pre-reveal text is 30/30. | Every story now has a culprit the model can rank. Plain "Hall Pycroft" is not used in R12 because it always means the client; "lodger" is not used in R23 because it also means the wife. |
+| A2 | Detectives and narrators were not candidates; some police were (Lestrade in M05, Japp, Flambeau). | Every roster keeps everyone: detective, sidekick/narrator and police named before the reveal. Median roster size 5 → 8. | One consistent rule; the model must learn that investigators are rarely culprits. |
+| A3 | M20 and M23 principals marked "to be confirmed". | Confirmed by the annotator (Burnwell; Gilchrist with accomplice Bannister). | |
+| A4 | Blind re-annotation planned. | Dropped. Single annotator, no agreement measure; stated as a limitation. | Team decision. |
+
+### v3 results (full pre-reveal text, MRR, LOSO, C = 1)
+
+| method | v2 clogit | v3 clogit | v3 logreg |
+|---|---|---|---|
+| V | 0.35 | 0.52 | 0.50 |
+| I | 0.44 | 0.29 | 0.37 |
+| C | 0.41 | 0.48 | 0.45 |
+| V+I | 0.40 | 0.44 | 0.43 |
+| V+C | 0.42 | 0.49 | 0.48 |
+| I+C | 0.48 | 0.48 | 0.48 |
+| V+I+C | 0.43 | 0.49 | 0.46 |
+| mention_freq | 0.40 | 0.30 | — |
+| random | 0.39 | 0.37 | — |
+
+- **Primary comparison 1** now favours the model: clogit V+I+C − mention count = +0.19, 95% CI [0.02, 0.36]; 21 stories better, 6 worse, 3 tied. Against random: +0.12 [0.01, 0.25].
+- Read this with care: the detective is the most-mentioned character in 27 of 30 stories, so mention count now usually ranks the detective first and falls below random. Much of the model's gain is learning not to pick the investigator. Investigators are still ranked first by the model in 5 stories (Forbes, Watson, Flambeau, Father Brown, Hastings).
+- The 4 handle stories: R12 and R23 are now ranked first, R07 at rank 2, M26 at rank 5.
+- Interaction features alone (I) drop to 0.29: the detective is connected to everyone, so network centrality now points at the detective.
+- **Experiment 1**: coverage 0.53 / 0.83 / 0.93 / 0.93 at 20–80% (1.00 full). MRR given a visible culprit now rises with the prefix (0.40 → 0.50), unlike v2.
+- **Primary comparison 2** (V+I+C, scattered − continuous at 20%): −0.01, 95% CI [−0.04, 0.01]; still no difference.
+- Alias sensitivity (all links merged): V+I+C 0.45, mention count 0.32; same picture.

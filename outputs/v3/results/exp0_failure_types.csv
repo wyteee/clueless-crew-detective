@@ -1,0 +1,17 @@
+model,method,hit,random,ranking_error,tied_first
+baseline,mention_freq,2,0,28,0
+baseline,random,0,30,0,0
+clogit,C,4,0,16,10
+clogit,I,3,0,27,0
+clogit,I+C,8,0,22,0
+clogit,V,9,0,21,0
+clogit,V+C,7,0,23,0
+clogit,V+I,7,0,23,0
+clogit,V+I+C,8,0,22,0
+logreg,C,3,0,19,8
+logreg,I,6,0,24,0
+logreg,I+C,7,0,23,0
+logreg,V,8,0,22,0
+logreg,V+C,7,0,23,0
+logreg,V+I,6,0,24,0
+logreg,V+I+C,7,0,23,0

@@ -4,7 +4,7 @@
 Course project (Data Mining) "Predicting Culprits in Detective Fiction Under Incomplete Information". See README.md for the design. Team members mostly write in Chinese; reply in the language the user uses. Code, comments and docs stay in English.
 
 ## Current phase
-Annotation done (blind re-annotation check pending); features, prediction and masking experiments in v2 (`docs/02_features_and_experiments.md`, changes from v1 in `docs/03_revision_plan.md`). Read `docs/01_data_annotation.md` and `docs/annotation_guideline.md` before touching data.
+Annotation done (guideline v0.13; no reliability re-annotation); features, prediction and masking experiments in v2 (`docs/02_features_and_experiments.md`, changes from v1 in `docs/03_revision_plan.md`). Read `docs/01_data_annotation.md` and `docs/annotation_guideline.md` before touching data.
 
 ## Hard rules
 1. `data/raw/` is immutable. Never edit or regenerate by hand.
@@ -21,7 +21,8 @@ Annotation done (blind re-annotation check pending); features, prediction and ma
 - Manifest = three CSVs with the same columns: `manifest/annotations.csv` (30 eligible main stories), `manifest/pilot.csv` (P1–P5), `manifest/excluded.csv` (screened out). `src.annotate` routes each row by story_id/exclusion_reason; never edit them by hand.
 - Manifest columns: `story_id,title,annotator,culprit,reveal_para_idx,reveal_pct,reveal_quote,aliases,culprit_before_reveal,exclusion_reason,notes`.
 - `exclusion_reason` ∈ `multiple_culprits | non_criminal | unresolved | non_human | culprit_unnamed | other:<text>`.
-- One annotator (`wyte`) does all annotation. Reliability check = blind re-annotation by the same annotator of the pilot + ≥20% of main stories (seed in `src/config.py`), stored in `manifest/review_wyte.csv` with the manifest columns; see `docs/01_data_annotation.md` §5.
+- One annotator (`wyte`) does all annotation; there is no reliability re-annotation (dropped 2026-11-03, stated as a limitation).
+- Roster = the alias table of each story, which includes investigators (detective, sidekick/narrator, police). A principal with no name before the reveal is represented by the pre-reveal handle that refers only to them (guideline v0.12).
 - Notebooks are numbered `NN_name.ipynb`, run top to bottom, outputs cleared before commit.
 
 - `docs/story_list.md` lists only the 30 eligible main stories (no culprits); regenerate it from the manifest when eligibility changes.
